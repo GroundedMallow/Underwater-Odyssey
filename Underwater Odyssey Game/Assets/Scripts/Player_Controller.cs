@@ -40,9 +40,17 @@ public class Player_Controller : MonoBehaviour
     private Vector2 lastPos;
     private bool isMoving;
 
+    [Header("Camera Follow")]
+    private CamFollow_Object camFollowObj;
+    [SerializeField] private Transform camFollowGO;
+    private float fallSpeedThershold;
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        camFollowObj = GetComponent<CamFollow_Object>();
+
+        camFollowObj = camFollowGO.GetComponent<CamFollow_Object>();
+        fallSpeedThershold = Camera_Manager.instance.fallSpeedThreshold;
     }
 
     private void FixedUpdate()
@@ -55,10 +63,12 @@ public class Player_Controller : MonoBehaviour
             if(moveInput > 0 && isFacingRight)
             {
                 Flip();
+                camFollowObj.CallTurn();
             }
             else if(moveInput < 0 && !isFacingRight)
             {
                 Flip();
+                camFollowObj.CallTurn();
             }
         }
     }
@@ -106,6 +116,18 @@ public class Player_Controller : MonoBehaviour
 
         WallSlide();
         WallDash();
+
+        //falling past speed threshold
+        if(rb.velocity.y < fallSpeedThershold && !Camera_Manager.instance.isLerpYDamping && !Camera_Manager.instance.LerpedFromPlayerFalling)
+        {
+            Camera_Manager.instance.LerpYDamping(true);
+        }
+
+        //standing still or moving up
+        if(rb.velocity.y >= 0f && !Camera_Manager.instance.isLerpYDamping && Camera_Manager.instance.LerpedFromPlayerFalling)
+        {
+            Camera_Manager.instance.LerpYDamping(false);
+        }
     }
 
     private void AttackAction()
