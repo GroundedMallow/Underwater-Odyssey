@@ -15,10 +15,10 @@ public class Player_Controller : MonoBehaviour
     public float jumpTime;
     public float checkRadius;
 
-    private bool isGrounded;
+    public bool isGrounded;
     public Transform groundCheck;
     private float jumpTimeCounter;
-    private bool isJumping;
+    public bool isJumping;
 
     public LayerMask _layerGround;
 
@@ -38,7 +38,7 @@ public class Player_Controller : MonoBehaviour
 
     [Header("Wall Dash")]
     private Vector2 lastPos;
-    private bool isMoving;
+    public bool isMoving;
 
     [Header("Camera Follow")]
     private CamFollow_Object camFollowObj;
@@ -137,7 +137,7 @@ public class Player_Controller : MonoBehaviour
         foreach(Collider2D enemy in hitEnemies)
         {
             Debug.Log("Enemy hit");
-            enemy.GetComponent<Enemy_DMG>().TakeDMG(atkDMG);
+            enemy.GetComponent<Enemy>().TakeDMG(atkDMG);
         }
     }
 

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Health_System : MonoBehaviour
+public class UI_Health_System : MonoBehaviour
 {
     public int health;
     public int currentHearts;
@@ -11,16 +11,21 @@ public class Health_System : MonoBehaviour
     public Sprite fullHeart;
     public Sprite emptyHeart;
 
+    private void Start()
+    {
+        health = currentHearts;
+    }
+
     private void Update()
     {
-        if(health > currentHearts)
+        if (health > currentHearts)
         {
             health = currentHearts;
         }
 
-        for(int i = 0; i < hearts.Length; i++)
+        for (int i = 0; i < hearts.Length; i++)
         {
-            if(i < health)
+            if (i < health)
             {
                 hearts[i].sprite = fullHeart;
             }
@@ -29,7 +34,7 @@ public class Health_System : MonoBehaviour
                 hearts[i].sprite = emptyHeart;
             }
 
-            if(i < hearts.Length)
+            if (i < hearts.Length)
             {
                 hearts[i].enabled = true;
             }
@@ -37,15 +42,6 @@ public class Health_System : MonoBehaviour
             {
                 hearts[i].enabled = false;
             }
-        }
-    }
-
-    public void TakeDMG(int dmg)
-    {
-        health -= dmg;
-        if(health <= 0)
-        {
-            Destroy(gameObject);
         }
     }
 }

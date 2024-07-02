@@ -1,11 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy_DMG : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     public int health;
     public int currentHealth;
+
+
+    [Header("Player")]
+    public Health_Player playerHealth;
+    public int dmg;
 
     private void Start()
     {
@@ -20,6 +23,14 @@ public class Enemy_DMG : MonoBehaviour
         {
             Debug.Log("Enemy died");
             Destroy(this.gameObject);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            playerHealth.TakeDMGPlayer(dmg);
         }
     }
 }
